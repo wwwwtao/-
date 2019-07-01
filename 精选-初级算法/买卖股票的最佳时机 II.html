@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
+        设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。 */
+
+
+        // 当明天的价格比今天的价格贵的时候我们今天买 之后下跌得前一天卖 
+        // 然后继续当明天的价格比今天的价格贵的时候我们今天买 这样能够获取最大利润。搞清楚这个，相信你对上面的算法就一目了然了。
+        const prices = [7, 1, 5, 3, 6, 4] //股票每天的价格
+        var buy = 0; //买入的价格
+        var profit = 0;//利润
+
+        //买入的方法  
+        function buybuybuy(pic) {
+            for (let i = 0; i < pic.length; i++) {
+                //判断还有没有明天
+                if (pic[i + 1]) {
+                    //判断今天的价格比明天便宜 就买今天的 
+                    if (pic[i] < pic[i + 1]) {
+                        buy = pic[i]
+                        //截取掉今天之前的数组
+                        return pic = pic.slice(i)
+                    }
+                } else {
+                    return false
+                }
+            }
+        }
+
+        //卖出的方法
+        //  1 2 3 4 3   
+        //  判断后一个比前一个小的时候 降的时候 用最后一个数 降之前的数 减去buy
+        function sellOut(arr) {
+
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i + 1]) {
+                    if (arr[i] > arr[i + 1]) {
+                        profit += arr[i] - buy;
+                        return arr.slice(i)
+                    }
+                } else {
+                    profit = arr[i] - buy
+                }
+            }
+        }
+
+        let maxProfit = function (pic) {
+            var arr = buybuybuy(pic);
+            var arr1 = sellOut(arr);
+            if (arr1) {
+                maxProfit(arr1)
+            }
+            return profit;
+        };
+
+
+
+
+
+        console.log(maxProfit(prices)) 
+    </script>
+</body>
+
+</html>
